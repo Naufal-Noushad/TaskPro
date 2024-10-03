@@ -1,0 +1,81 @@
+{%extends 'base.html' %}
+
+{%block main_block%}
+
+    <div class="container my-3">
+        <div class="w-25 mx-auto">
+            <form action="">
+                <select name="category" id="" class="form-control form-select border border-2 border-dark" onchange="this.form.submit()">
+                    <option value="all" {% if selected == "all" %} selected {%endif%}>All</option>
+                    <option value="personal" {% if selected == "personal" %} selected {%endif%}>Personal</option>
+                    <option value="business" {% if selected == "business" %} selected {%endif%}>Business</option>
+                </select>
+            </form>
+        </div>
+    </div>
+
+
+
+
+    <div class="container mt-5">
+        <div class="row">
+            {%for t in tasks%}
+
+                <div class="col-4">
+
+                    <div class="card text-light bg-secondary mb-3" style="max-width: 18rem;">
+                        <div class="card-header d-flex justify-content-between fw-bold">
+                            <div> {{t.user}} </div>
+                            <div class="text-danger"> 
+                                
+                                {%if t.status == "pending"%}
+
+                                <div class="spinner-grow text-danger spinner-grow-sm" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                  </div>
+                                <div class="text-danger">{{t.status}}</div>
+                                {%endif%}
+
+                                {%if t.status == "in-progress"%}
+
+                                <div class="spinner-grow text-warning spinner-grow-sm" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                    
+                                  </div>
+                                <div class="text-warning">{{t.status}}</div>
+
+                                {%endif%}
+
+                                {%if t.status == "done"%}
+
+                                <div class="spinner-grow text-success spinner-grow-sm" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                    
+                                  </div>
+                                <div class="text-success">{{t.status}}</div>
+
+                                {%endif%}
+                                
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold"> {{t.title}}</h5>
+                            <p class="card-text fst-italic"> {{t.description}} </p>
+                        </div>
+                        <div class="card-footer text-body-white">
+                            Created_date:{{t.created_date|date}}
+                            Updated_date:{{t.updated_date|date}}
+                            Due_date:{{t.due_date|date}}
+                            <a href="{%url 'task-update' t.id %}" class="btn btn-warning">Update</a>
+                            <a href="{%url 'task-delete' t.id %}" class="btn btn-danger">Remove</a>
+                        </div>
+                    </div>
+
+                </div>
+
+            {%endfor%}
+        </div>
+    </div>
+
+
+{%endblock%}
